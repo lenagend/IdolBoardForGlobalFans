@@ -1,8 +1,11 @@
 package com.kmHompage.idolboard.controller;
 
+import com.kmHompage.idolboard.domain.Board;
 import com.kmHompage.idolboard.service.ForumService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
 
@@ -22,5 +25,11 @@ public class HomeController {
                                 this.forumService.getForums()
                                         .doOnNext(System.out::println))
                 .build());
+    }
+
+    @PostMapping("/addForum")
+    Mono<String> createForum(@ModelAttribute Board board){
+        return this.forumService.saveForum(board)
+                .thenReturn("redirect:/");
     }
 }

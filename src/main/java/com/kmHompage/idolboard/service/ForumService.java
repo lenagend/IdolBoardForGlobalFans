@@ -16,6 +16,6 @@ public class ForumService {
     }
 
     public Flux<Board> getForums(){return this.boardRepository.findAll();}
-    Mono<Board> saveForum(Board board){return this.boardRepository.save(board);}
+    public Mono<Board> saveForum(Board board){return this.boardRepository.save(board);}
 
 }
