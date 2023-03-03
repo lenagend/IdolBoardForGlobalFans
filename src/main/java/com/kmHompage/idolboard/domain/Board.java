@@ -8,6 +8,9 @@ public class Board {
     private String name;
     private String description;
 
+    public Board() {
+    }
+
     public Board(String name, String description) {
         this.name = name;
         this.description = description;
