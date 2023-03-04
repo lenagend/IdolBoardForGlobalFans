@@ -7,16 +7,19 @@ import java.util.Objects;
 public class Post {
     private @Id
     String id;
+    String boardId;
     private String title;
     private String contents;
 
-    public Post(String id, String title, String contents) {
+    public Post(String id, String boardId, String title, String contents) {
         this.id = id;
+        this.boardId = boardId;
         this.title = title;
         this.contents = contents;
     }
 
-    public Post(String title, String contents) {
+    public Post(String boardId, String title, String contents) {
+        this.boardId = boardId;
         this.title = title;
         this.contents = contents;
     }
@@ -48,23 +51,32 @@ public class Post {
         this.contents = contents;
     }
 
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return id.equals(post.id) && title.equals(post.title) && contents.equals(post.contents);
+        return Objects.equals(id, post.id) && Objects.equals(boardId, post.boardId) && Objects.equals(title, post.title) && Objects.equals(contents, post.contents);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, contents);
+        return Objects.hash(id, boardId, title, contents);
     }
 
     @Override
     public String toString() {
         return "Post{" +
                 "id='" + id + '\'' +
+                ", boardId='" + boardId + '\'' +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
                 '}';
