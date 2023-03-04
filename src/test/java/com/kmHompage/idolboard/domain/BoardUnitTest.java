@@ -15,6 +15,10 @@ public class BoardUnitTest {
         assertThat(sampleBoard.getName()).isEqualTo("Blackpink");
         assertThat(sampleBoard.getDescription()).isEqualTo("Yg Entertainment's girl group");
 
+        assertThat(sampleBoard.toString()).isEqualTo(
+                "Board{id='board1', name='Blackpink', description='Yg Entertainment's girl group'}"
+        );
+
         Board sampleBoard2 = new Board("board1", "Blackpink", "Yg Entertainment's girl group");
         assertThat(sampleBoard).isEqualTo(sampleBoard2);
     }
