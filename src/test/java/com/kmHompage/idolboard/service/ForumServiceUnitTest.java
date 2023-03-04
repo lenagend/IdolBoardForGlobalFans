@@ -5,6 +5,7 @@ import com.kmHompage.idolboard.repository.BoardRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
@@ -40,6 +41,14 @@ public class ForumServiceUnitTest {
                     assertThat(board.getName()).isEqualTo("Blackpink");
                     return true;
                 }).verifyComplete();
+
+    }
+
+    @Test
+    void deleteForum(){
+        Mono<Void> voidReturn = Mono.empty();
+        Mockito.when(forumService.deleteForum("1"))
+                .thenReturn(voidReturn);
 
     }
 

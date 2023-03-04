@@ -3,9 +3,7 @@ package com.kmHompage.idolboard.controller;
 import com.kmHompage.idolboard.domain.Board;
 import com.kmHompage.idolboard.service.ForumService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
 
@@ -30,6 +28,12 @@ public class HomeController {
     @PostMapping("/addForum")
     Mono<String> createForum(@ModelAttribute Board board){
         return this.forumService.saveForum(board)
+                .thenReturn("redirect:/");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    Mono<String> deleteForum(@PathVariable String id){
+        return this.forumService.deleteForum(id)
                 .thenReturn("redirect:/");
     }
 }

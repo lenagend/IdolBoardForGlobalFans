@@ -3,11 +3,13 @@ package com.kmHompage.idolboard.controller;
 import com.kmHompage.idolboard.domain.Board;
 import com.kmHompage.idolboard.service.ForumService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,5 +37,17 @@ public class HomeControllerSliceTest {
                     assertThat(
                             exchangeResult.getResponseBody()).contains("td>Blackpink");
                 });
+    }
+
+
+    @Test
+    void deleteForum(){
+        Mono<Void> voidReturn = Mono.empty();
+        Mockito.when(forumService.deleteForum("1"))
+                .thenReturn(voidReturn);
+
+        client.delete().uri("/delete/{id}", "1").exchange()
+                .expectStatus().is3xxRedirection();
+
     }
 }
