@@ -28,6 +28,11 @@
             <td th:text="${forum.id}"></td>
             <td th:text="${forum.name}"></td>
             <td th:text="${forum.description}"></td>
+            <td>
+                <form th:method="delete" th:action="@{'/delete/' + ${forum.id}}">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
         </tr>
     </tbody>
 </table>
