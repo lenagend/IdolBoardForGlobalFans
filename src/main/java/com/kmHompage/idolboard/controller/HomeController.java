@@ -20,12 +20,12 @@ public class HomeController {
     Mono<Rendering> home(){
         return Mono.just(Rendering.view("home.html")
                         .modelAttribute("forums",
-                                this.forumService.getBoards()
+                                this.forumService.getForums()
                                         .doOnNext(System.out::println))
                 .build());
     }
 
-    @PostMapping("/addForum")
+    @PostMapping("/addBoard")
     Mono<String> createForum(@ModelAttribute Board board){
         return this.forumService.saveBoard(board)
                 .thenReturn("redirect:/");

@@ -1,6 +1,7 @@
 package com.kmHompage.idolboard.service;
 
 import com.kmHompage.idolboard.domain.Board;
+import com.kmHompage.idolboard.domain.Forum;
 import com.kmHompage.idolboard.domain.Post;
 import com.kmHompage.idolboard.repository.BoardRepository;
 import com.kmHompage.idolboard.repository.PostRepository;
@@ -23,4 +24,10 @@ public class ForumService {
     public Mono<Board> saveBoard(Board board){return this.boardRepository.save(board);}
     public Mono<Void> deleteBoard(String id){return this.boardRepository.deleteById(id);}
     public Flux<Post> getPosts(String boardId){return this.postRepository.findByBoardId(boardId);}
+    public Flux<Forum> getForums(){return this.boardRepository.findAll()
+            .defaultIfEmpty(new Board("board1", "Blackpink", "Yg Entertainment's girl group"))
+            .map(board -> {
+                return new Forum(board);
+            });
+    }
 }

@@ -1,6 +1,7 @@
 package com.kmHompage.idolboard.controller;
 
 import com.kmHompage.idolboard.domain.Board;
+import com.kmHompage.idolboard.domain.Forum;
 import com.kmHompage.idolboard.service.ForumService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,9 +26,9 @@ public class HomeControllerSliceTest {
 
     @Test
     void homepage(){
-        when(forumService.getBoards()).thenReturn(Flux.just(
-                new Board( "Blackpink", "YG Entertainment's girl group"),
-               new Board( "twice", "JYP Entertainment's girl group")
+        when(forumService.getForums()).thenReturn(Flux.just(
+                new Forum(new Board( "Blackpink", "YG Entertainment's girl group")),
+                new Forum(new Board( "twice", "JYP Entertainment's girl group"))
         ));
 
         client.get().uri("/").exchange()

@@ -7,29 +7,27 @@
 <body>
 <h1>Welcome to K-Fans</h1>
 <h2>add Forum</h2>
-<form method="post" th:action="@{'/addForum'}">
-    <label for="name">포럼 이름</label>
+<form method="post" th:action="@{'/addBoard'}">
+    <label for="name">board name</label>
     <input type="text" id="name" name="name" />
 
-    <label for="description">포럼 설명</label>
+    <label for="description">board description</label>
     <input type="text" id="description" name="description" />
     <input type="submit" value="add new forum"/>
 </form>
 <table>
     <thead>
         <tr>
-            <th>Id</th>
             <th>name</th>
             <th>description</th>
         </tr>
     </thead>
     <tbody>
         <tr th:each="forum : ${forums}">
-            <td th:text="${forum.id}"></td>
-            <td th:text="${forum.name}"></td>
-            <td th:text="${forum.description}"></td>
+            <td th:text="${forum.board.name}"></td>
+            <td th:text="${forum.board.description}"></td>
             <td>
-                <form th:method="delete" th:action="@{'/delete/' + ${forum.id}}">
+                <form th:method="delete" th:action="@{'/delete/' + ${forum.board.id}}">
                     <input type="submit" value="Delete">
                 </form>
             </td>

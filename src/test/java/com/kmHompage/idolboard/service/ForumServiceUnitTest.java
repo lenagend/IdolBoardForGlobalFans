@@ -37,12 +37,14 @@ public class ForumServiceUnitTest {
 
         when(boardRepository.save(any(Board.class))).thenReturn(Mono.just(sampleBoard));
         when(postRepository.findByBoardId(anyString())).thenReturn(Flux.just(samplePost));
+        when(boardRepository.findAll()).thenReturn(Flux.just(sampleBoard));
+
 
         forumService = new ForumService(boardRepository, postRepository);
     }
 
     @Test
-    void addForumTest(){
+    void addBoardTest(){
         forumService.saveBoard(new Board( "Blackpink", "Yg Entertainment's girl group"))
                 .as(StepVerifier::create)
                 .expectNextMatches(board -> {
@@ -53,7 +55,7 @@ public class ForumServiceUnitTest {
     }
 
     @Test
-    void deleteForumTest(){
+    void deleteBoardTest(){
         Mono<Void> voidReturn = Mono.empty();
         Mockito.when(forumService.deleteBoard("1"))
                 .thenReturn(voidReturn);
@@ -70,5 +72,15 @@ public class ForumServiceUnitTest {
                 }).verifyComplete();
     }
 
+
+    @Test
+    void getForumsTest(){
+        forumService.getForums()
+                .as(StepVerifier::create)
+                .expectNextMatches(forum -> {
+                    assertThat(forum.getBoard().getName()).isEqualTo("Blackpink");
+                    return true;
+                }).verifyComplete();
+    }
 
 }
