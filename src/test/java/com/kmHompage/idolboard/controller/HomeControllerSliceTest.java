@@ -25,7 +25,7 @@ public class HomeControllerSliceTest {
 
     @Test
     void homepage(){
-        when(forumService.getForums()).thenReturn(Flux.just(
+        when(forumService.getBoards()).thenReturn(Flux.just(
                 new Board( "Blackpink", "YG Entertainment's girl group"),
                new Board( "twice", "JYP Entertainment's girl group")
         ));
@@ -43,7 +43,7 @@ public class HomeControllerSliceTest {
     @Test
     void deleteForum(){
         Mono<Void> voidReturn = Mono.empty();
-        Mockito.when(forumService.deleteForum("1"))
+        Mockito.when(forumService.deleteBoard("1"))
                 .thenReturn(voidReturn);
 
         client.delete().uri("/delete/{id}", "1").exchange()

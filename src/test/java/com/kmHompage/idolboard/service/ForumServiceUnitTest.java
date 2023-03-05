@@ -43,7 +43,7 @@ public class ForumServiceUnitTest {
 
     @Test
     void addForumTest(){
-        forumService.saveForum(new Board( "Blackpink", "Yg Entertainment's girl group"))
+        forumService.saveBoard(new Board( "Blackpink", "Yg Entertainment's girl group"))
                 .as(StepVerifier::create)
                 .expectNextMatches(board -> {
                     assertThat(board.getName()).isEqualTo("Blackpink");
@@ -55,7 +55,7 @@ public class ForumServiceUnitTest {
     @Test
     void deleteForumTest(){
         Mono<Void> voidReturn = Mono.empty();
-        Mockito.when(forumService.deleteForum("1"))
+        Mockito.when(forumService.deleteBoard("1"))
                 .thenReturn(voidReturn);
 
     }

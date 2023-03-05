@@ -20,20 +20,20 @@ public class HomeController {
     Mono<Rendering> home(){
         return Mono.just(Rendering.view("home.html")
                         .modelAttribute("forums",
-                                this.forumService.getForums()
+                                this.forumService.getBoards()
                                         .doOnNext(System.out::println))
                 .build());
     }
 
     @PostMapping("/addForum")
     Mono<String> createForum(@ModelAttribute Board board){
-        return this.forumService.saveForum(board)
+        return this.forumService.saveBoard(board)
                 .thenReturn("redirect:/");
     }
 
     @DeleteMapping("/delete/{id}")
     Mono<String> deleteForum(@PathVariable String id){
-        return this.forumService.deleteForum(id)
+        return this.forumService.deleteBoard(id)
                 .thenReturn("redirect:/");
     }
 }

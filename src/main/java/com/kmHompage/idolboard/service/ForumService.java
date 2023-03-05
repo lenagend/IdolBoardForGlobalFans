@@ -19,9 +19,8 @@ public class ForumService {
         this.postRepository = postRepository;
     }
 
-    public Flux<Board> getForums(){return this.boardRepository.findAll();}
-    public Mono<Board> saveForum(Board board){return this.boardRepository.save(board);}
-    public Mono<Void> deleteForum(String id){return this.boardRepository.deleteById(id);}
-
+    public Flux<Board> getBoards(){return this.boardRepository.findAll();}
+    public Mono<Board> saveBoard(Board board){return this.boardRepository.save(board);}
+    public Mono<Void> deleteBoard(String id){return this.boardRepository.deleteById(id);}
     public Flux<Post> getPosts(String boardId){return this.postRepository.findByBoardId(boardId);}
 }
