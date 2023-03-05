@@ -7,19 +7,19 @@ import java.util.Objects;
 public class Post {
     private @Id
     String id;
-    String boardId;
+    String forumId;
     private String title;
     private String contents;
 
-    public Post(String id, String boardId, String title, String contents) {
+    public Post(String id, String forumId, String title, String contents) {
         this.id = id;
-        this.boardId = boardId;
+        this.forumId = forumId;
         this.title = title;
         this.contents = contents;
     }
 
-    public Post(String boardId, String title, String contents) {
-        this.boardId = boardId;
+    public Post(String forumId, String title, String contents) {
+        this.forumId = forumId;
         this.title = title;
         this.contents = contents;
     }
@@ -51,12 +51,12 @@ public class Post {
         this.contents = contents;
     }
 
-    public String getBoardId() {
-        return boardId;
+    public String getForumId() {
+        return forumId;
     }
 
-    public void setBoardId(String boardId) {
-        this.boardId = boardId;
+    public void setForumId(String forumId) {
+        this.forumId = forumId;
     }
 
     @Override
@@ -64,19 +64,19 @@ public class Post {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return Objects.equals(id, post.id) && Objects.equals(boardId, post.boardId) && Objects.equals(title, post.title) && Objects.equals(contents, post.contents);
+        return Objects.equals(id, post.id) && Objects.equals(forumId, post.forumId) && Objects.equals(title, post.title) && Objects.equals(contents, post.contents);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, boardId, title, contents);
+        return Objects.hash(id, forumId, title, contents);
     }
 
     @Override
     public String toString() {
         return "Post{" +
                 "id='" + id + '\'' +
-                ", boardId='" + boardId + '\'' +
+                ", forumId='" + forumId + '\'' +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
                 '}';

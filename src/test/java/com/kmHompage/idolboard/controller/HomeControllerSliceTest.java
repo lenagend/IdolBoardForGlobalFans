@@ -1,6 +1,5 @@
 package com.kmHompage.idolboard.controller;
 
-import com.kmHompage.idolboard.domain.Board;
 import com.kmHompage.idolboard.domain.Forum;
 import com.kmHompage.idolboard.service.ForumService;
 import org.junit.jupiter.api.Test;
@@ -27,8 +26,8 @@ public class HomeControllerSliceTest {
     @Test
     void homepage(){
         when(forumService.getForums()).thenReturn(Flux.just(
-                new Forum(new Board( "Blackpink", "YG Entertainment's girl group")),
-                new Forum(new Board( "twice", "JYP Entertainment's girl group"))
+                new Forum( "Blackpink", "YG Entertainment's girl group"),
+                new Forum( "twice", "JYP Entertainment's girl group")
         ));
 
         client.get().uri("/").exchange()
@@ -44,7 +43,7 @@ public class HomeControllerSliceTest {
     @Test
     void deleteForum(){
         Mono<Void> voidReturn = Mono.empty();
-        Mockito.when(forumService.deleteBoard("1"))
+        Mockito.when(forumService.deleteForum("1"))
                 .thenReturn(voidReturn);
 
         client.delete().uri("/delete/{id}", "1").exchange()

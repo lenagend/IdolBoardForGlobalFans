@@ -2,59 +2,73 @@ package com.kmHompage.idolboard.domain;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Forum {
-    private Board board;
-    private List<Post> posts;
+    private @Id
+    String id;
+    private String name;
+    private String description;
+
 
     public Forum() {
     }
 
-    public Forum(Board board, List<Post> posts) {
-        this.board = board;
-        this.posts = posts;
+    public Forum(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public Forum(Board board) {
-        this.board = board;
+    public Forum(String id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
     }
 
-    public Board getBoard() {
-        return board;
+    public String getId() {
+        return id;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public String getName() {
+        return name;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Forum forum = (Forum) o;
-        return Objects.equals(board, forum.board) && Objects.equals(posts, forum.posts);
+        Forum board = (Forum) o;
+        return Objects.equals(id, board.id) && Objects.equals(name, board.name) && Objects.equals(description, board.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(board, posts);
+        return Objects.hash(id, name, description);
     }
 
     @Override
     public String toString() {
-        return "Forum{" +
-                "board=" + board +
-                ", posts=" + posts +
+        return "Board{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
+

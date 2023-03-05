@@ -1,8 +1,8 @@
 package com.kmHompage.idolboard.service;
 
-import com.kmHompage.idolboard.domain.Board;
+import com.kmHompage.idolboard.domain.Forum;
 import com.kmHompage.idolboard.domain.Post;
-import com.kmHompage.idolboard.repository.BoardRepository;
+import com.kmHompage.idolboard.repository.ForumRepository;
 import com.kmHompage.idolboard.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,32 +25,32 @@ public class ForumServiceUnitTest {
     ForumService forumService;
 
     @MockBean
-    private BoardRepository boardRepository;
+    private ForumRepository forumRepository;
 
     @MockBean
     private PostRepository postRepository;
 
     @BeforeEach
     void setup() {
-        Board sampleBoard = new Board("Blackpink", "Yg Entertainment's girl group");
-        Board sampleBoard2 = new Board("twice", "JYP Entertainment's girl group");
+        Forum sampleBoard = new Forum("Blackpink", "Yg Entertainment's girl group");
+        Forum sampleBoard2 = new Forum("twice", "JYP Entertainment's girl group");
 
         Post samplePost = new Post("board1", "title1", "content1");
 
-        when(boardRepository.save(any(Board.class))).thenReturn(Mono.just(sampleBoard));
-        when(postRepository.findByBoardId(anyString())).thenReturn(Flux.just(samplePost));
-        when(boardRepository.findAll()).thenReturn(Flux.just(sampleBoard));
+        when(forumRepository.save(any(Forum.class))).thenReturn(Mono.just(sampleBoard));
+        when(postRepository.findByForumId(anyString())).thenReturn(Flux.just(samplePost));
+        when(forumRepository.findAll()).thenReturn(Flux.just(sampleBoard));
 
 
-        forumService = new ForumService(boardRepository, postRepository);
+        forumService = new ForumService(forumRepository, postRepository);
     }
 
     @Test
     void addBoardTest() {
-        forumService.saveBoard(new Board("Blackpink", "Yg Entertainment's girl group"))
+        forumService.saveForum(new Forum("Blackpink", "Yg Entertainment's girl group"))
                 .as(StepVerifier::create)
-                .expectNextMatches(board -> {
-                    assertThat(board.getName()).isEqualTo("Blackpink");
+                .expectNextMatches(forum -> {
+                    assertThat(forum.getName()).isEqualTo("Blackpink");
                     return true;
                 }).verifyComplete();
 
@@ -59,14 +59,14 @@ public class ForumServiceUnitTest {
     @Test
     void deleteBoardTest() {
         Mono<Void> voidReturn = Mono.empty();
-        Mockito.when(forumService.deleteBoard("1"))
+        Mockito.when(forumService.deleteForum("1"))
                 .thenReturn(voidReturn);
 
     }
 
     @Test
     void getPostsTest() {
-        forumService.getPosts("board1")
+        forumService.getPosts("forum1")
                 .as(StepVerifier::create)
                 .expectNextMatches(post -> {
                     assertThat(post.getTitle()).isEqualTo("title1");
@@ -80,7 +80,7 @@ public class ForumServiceUnitTest {
         forumService.getForums()
                 .as(StepVerifier::create)
                 .expectNextMatches(forum -> {
-                    assertThat(forum.getBoard().getName()).isEqualTo("Blackpink");
+                    assertThat(forum.getName()).isEqualTo("Blackpink");
                     return true;
                 }).verifyComplete();
     }

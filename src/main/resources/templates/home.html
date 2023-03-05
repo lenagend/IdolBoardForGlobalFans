@@ -7,11 +7,11 @@
 <body>
 <h1>Welcome to K-Fans</h1>
 <h2>add Forum</h2>
-<form method="post" th:action="@{'/addBoard'}">
-    <label for="name">board name</label>
+<form method="post" th:action="@{'/add'}">
+    <label for="name">forum name</label>
     <input type="text" id="name" name="name" />
 
-    <label for="description">board description</label>
+    <label for="description">forum description</label>
     <input type="text" id="description" name="description" />
     <input type="submit" value="add new forum"/>
 </form>
@@ -24,10 +24,10 @@
     </thead>
     <tbody>
         <tr th:each="forum : ${forums}">
-            <td th:text="${forum.board.name}"></td>
-            <td th:text="${forum.board.description}"></td>
+            <td th:text="${forum.name}"></td>
+            <td th:text="${forum.description}"></td>
             <td>
-                <form th:method="delete" th:action="@{'/delete/' + ${forum.board.id}}">
+                <form th:method="delete" th:action="@{'/delete/' + ${forum.id}}">
                     <input type="submit" value="Delete">
                 </form>
             </td>
