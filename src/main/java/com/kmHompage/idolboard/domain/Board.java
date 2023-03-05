@@ -10,6 +10,7 @@ public class Board {
     private String name;
     private String description;
 
+
     public Board() {
     }
 

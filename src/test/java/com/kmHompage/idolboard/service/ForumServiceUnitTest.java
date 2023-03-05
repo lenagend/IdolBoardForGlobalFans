@@ -1,13 +1,16 @@
 package com.kmHompage.idolboard.service;
 
 import com.kmHompage.idolboard.domain.Board;
+import com.kmHompage.idolboard.domain.Post;
 import com.kmHompage.idolboard.repository.BoardRepository;
+import com.kmHompage.idolboard.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -23,18 +26,23 @@ public class ForumServiceUnitTest {
 
     @MockBean private BoardRepository boardRepository;
 
+    @MockBean private PostRepository postRepository;
+
     @BeforeEach
     void setup(){
         Board sampleBoard = new Board( "Blackpink", "Yg Entertainment's girl group");
         Board sampleBoard2 = new Board("twice", "JYP Entertainment's girl group");
 
-        when(boardRepository.save(any(Board.class))).thenReturn(Mono.just(sampleBoard));
+        Post samplePost = new Post("board1", "title1", "content1");
 
-        forumService = new ForumService(boardRepository);
+        when(boardRepository.save(any(Board.class))).thenReturn(Mono.just(sampleBoard));
+        when(postRepository.findByBoardId(anyString())).thenReturn(Flux.just(samplePost));
+
+        forumService = new ForumService(boardRepository, postRepository);
     }
 
     @Test
-    void addForum(){
+    void addForumTest(){
         forumService.saveForum(new Board( "Blackpink", "Yg Entertainment's girl group"))
                 .as(StepVerifier::create)
                 .expectNextMatches(board -> {
@@ -45,11 +53,21 @@ public class ForumServiceUnitTest {
     }
 
     @Test
-    void deleteForum(){
+    void deleteForumTest(){
         Mono<Void> voidReturn = Mono.empty();
         Mockito.when(forumService.deleteForum("1"))
                 .thenReturn(voidReturn);
 
+    }
+
+    @Test
+    void getPostsTest(){
+        forumService.getPosts("board1")
+                .as(StepVerifier::create)
+                .expectNextMatches(post ->{
+                    assertThat(post.getTitle()).isEqualTo("title1");
+                    return true;
+                }).verifyComplete();
     }
 
 
