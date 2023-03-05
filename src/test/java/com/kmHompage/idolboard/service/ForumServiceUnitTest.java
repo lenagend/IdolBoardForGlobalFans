@@ -24,13 +24,15 @@ import static org.mockito.Mockito.when;
 public class ForumServiceUnitTest {
     ForumService forumService;
 
-    @MockBean private BoardRepository boardRepository;
+    @MockBean
+    private BoardRepository boardRepository;
 
-    @MockBean private PostRepository postRepository;
+    @MockBean
+    private PostRepository postRepository;
 
     @BeforeEach
-    void setup(){
-        Board sampleBoard = new Board( "Blackpink", "Yg Entertainment's girl group");
+    void setup() {
+        Board sampleBoard = new Board("Blackpink", "Yg Entertainment's girl group");
         Board sampleBoard2 = new Board("twice", "JYP Entertainment's girl group");
 
         Post samplePost = new Post("board1", "title1", "content1");
@@ -44,8 +46,8 @@ public class ForumServiceUnitTest {
     }
 
     @Test
-    void addBoardTest(){
-        forumService.saveBoard(new Board( "Blackpink", "Yg Entertainment's girl group"))
+    void addBoardTest() {
+        forumService.saveBoard(new Board("Blackpink", "Yg Entertainment's girl group"))
                 .as(StepVerifier::create)
                 .expectNextMatches(board -> {
                     assertThat(board.getName()).isEqualTo("Blackpink");
@@ -55,7 +57,7 @@ public class ForumServiceUnitTest {
     }
 
     @Test
-    void deleteBoardTest(){
+    void deleteBoardTest() {
         Mono<Void> voidReturn = Mono.empty();
         Mockito.when(forumService.deleteBoard("1"))
                 .thenReturn(voidReturn);
@@ -63,10 +65,10 @@ public class ForumServiceUnitTest {
     }
 
     @Test
-    void getPostsTest(){
+    void getPostsTest() {
         forumService.getPosts("board1")
                 .as(StepVerifier::create)
-                .expectNextMatches(post ->{
+                .expectNextMatches(post -> {
                     assertThat(post.getTitle()).isEqualTo("title1");
                     return true;
                 }).verifyComplete();
@@ -74,7 +76,7 @@ public class ForumServiceUnitTest {
 
 
     @Test
-    void getForumsTest(){
+    void getForumsTest() {
         forumService.getForums()
                 .as(StepVerifier::create)
                 .expectNextMatches(forum -> {
@@ -82,5 +84,4 @@ public class ForumServiceUnitTest {
                     return true;
                 }).verifyComplete();
     }
-
 }

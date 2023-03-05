@@ -16,11 +16,11 @@ public class HomeController {
         this.forumService = forumService;
     }
 
-    @GetMapping
-    Mono<Rendering> home(){
+    @GetMapping("/{id}")
+    Mono<Rendering> home(@PathVariable(required = false) String id){
         return Mono.just(Rendering.view("home.html")
                         .modelAttribute("forums",
-                                this.forumService.getForums()
+                                this.forumService.getForums(id)
                                         .doOnNext(System.out::println))
                 .build());
     }
