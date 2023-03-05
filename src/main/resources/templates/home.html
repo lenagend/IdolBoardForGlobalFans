@@ -5,7 +5,7 @@
     <title>k-Fans</title>
 </head>
 <body>
-<h1>Welcome to K-Fans</h1>
+<h1>Check Forums</h1>
 <h2>add Forum</h2>
 <form method="post" th:action="@{'/add'}">
     <label for="name">forum name</label>
@@ -24,7 +24,7 @@
     </thead>
     <tbody>
         <tr th:each="forum : ${forums}">
-            <td th:text="${forum.name}"></td>
+            <td><a th:href="@{'/post/' + ${forum.id}}"><span th:text="${forum.name}"></span></a></td>
             <td th:text="${forum.description}"></td>
             <td>
                 <form th:method="delete" th:action="@{'/delete/' + ${forum.id}}">
