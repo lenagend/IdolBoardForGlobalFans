@@ -11,17 +11,14 @@ import reactor.core.publisher.Mono;
 @Service
 public class ForumService {
 
-    private ForumRepository forumRepository;
-    private PostRepository postRepository;
+    private final ForumRepository forumRepository;
 
-    public ForumService(ForumRepository forumRepository, PostRepository postRepository) {
+    public ForumService(ForumRepository forumRepository) {
         this.forumRepository = forumRepository;
-        this.postRepository = postRepository;
     }
 
     public Flux<Forum> getForums(){return this.forumRepository.findAll();}
     public Mono<Forum> saveForum(Forum board){return this.forumRepository.save(board);}
     public Mono<Void> deleteForum(String id){return this.forumRepository.deleteById(id);}
-    public Flux<Post> getPosts(String boardId){return this.postRepository.findByForumId(boardId);}
 
 }

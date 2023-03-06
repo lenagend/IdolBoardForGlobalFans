@@ -22,13 +22,13 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 public class ForumServiceUnitTest {
+
     ForumService forumService;
 
     @MockBean
     private ForumRepository forumRepository;
 
-    @MockBean
-    private PostRepository postRepository;
+
 
     @BeforeEach
     void setup() {
@@ -38,11 +38,9 @@ public class ForumServiceUnitTest {
         Post samplePost = new Post("board1", "title1", "content1");
 
         when(forumRepository.save(any(Forum.class))).thenReturn(Mono.just(sampleBoard));
-        when(postRepository.findByForumId(anyString())).thenReturn(Flux.just(samplePost));
         when(forumRepository.findAll()).thenReturn(Flux.just(sampleBoard));
 
-
-        forumService = new ForumService(forumRepository, postRepository);
+        forumService = new ForumService(forumRepository);
     }
 
     @Test
@@ -62,16 +60,6 @@ public class ForumServiceUnitTest {
         Mockito.when(forumService.deleteForum("1"))
                 .thenReturn(voidReturn);
 
-    }
-
-    @Test
-    void getPostsTest() {
-        forumService.getPosts("forum1")
-                .as(StepVerifier::create)
-                .expectNextMatches(post -> {
-                    assertThat(post.getTitle()).isEqualTo("title1");
-                    return true;
-                }).verifyComplete();
     }
 
 

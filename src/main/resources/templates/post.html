@@ -7,6 +7,14 @@
 <body>
 <h1>Check Post</h1>
 <h2>add Post</h2>
+<form method="post" th:action="@{'/post/add'}">
+    <label for="title">title</label>
+    <input type="text" id="title" name="title" />
+    <label for="contents">contents</label>
+    <textarea id="contents" name="contents"></textarea>
+    <input type="hidden" name="forumId" th:value="${forumId}">
+    <input type="submit" value="add new Post"/>
+</form>
 <table>
     <thead>
         <tr>
