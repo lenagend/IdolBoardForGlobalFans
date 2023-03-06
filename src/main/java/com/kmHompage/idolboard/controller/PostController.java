@@ -4,10 +4,7 @@ import com.kmHompage.idolboard.domain.Post;
 import com.kmHompage.idolboard.service.ForumService;
 import com.kmHompage.idolboard.service.PostService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
 
@@ -36,4 +33,10 @@ public class PostController {
                 .thenReturn("redirect:" + uri);
     }
 
+    @DeleteMapping("/post/delete")
+    Mono<String> deletePost(@ModelAttribute Post post){
+        String uri = "/post/" + post.getForumId();
+        return this.postService.deletePost(post.getId())
+                .thenReturn("redirect:" + uri);
+    }
 }

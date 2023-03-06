@@ -27,8 +27,10 @@
             <td th:text="${post.title}"></td>
             <td th:text="${post.contents}"></td>
             <td>
-                <form th:method="delete" th:action="@{'/post/delete/' + ${post.id}}">
-                    <input type="submit" value="Delete">
+                <form th:method="delete" th:action="@{'/post/delete'}">
+                    <input type="hidden" name="forumId" th:value="${forumId}">
+                    <input type="hidden" name="id" th:value="${post.id}">
+                     <input type="submit" value="Delete">
                 </form>
             </td>
         </tr>
