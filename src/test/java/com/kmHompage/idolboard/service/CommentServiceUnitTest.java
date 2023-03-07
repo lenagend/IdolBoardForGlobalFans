@@ -6,6 +6,7 @@ import com.kmHompage.idolboard.repository.CommentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Flux;
@@ -37,6 +38,7 @@ public class CommentServiceUnitTest {
                 sampleComment
         ));
 
+
         commentService = new CommentService(commentRepository);
 
     }
@@ -61,5 +63,12 @@ public class CommentServiceUnitTest {
                     assertThat(comment.getContents()).isEqualTo("contents1");
                     return true;
                 }).verifyComplete();
+    }
+
+    @Test
+    void deleteCommentTest(){
+        Mono<Void> voidReturn = Mono.empty();
+        Mockito.when(commentService.deleteComment("1"))
+                .thenReturn(voidReturn);
     }
 }

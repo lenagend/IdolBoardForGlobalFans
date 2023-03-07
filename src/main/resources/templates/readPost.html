@@ -36,6 +36,13 @@
     <tbody>
         <tr th:each="comment : ${comments}">
             <td th:text="${comment.contents}"></td>
+            <td>
+                <form th:method="delete" th:action="@{'/comment/delete'}">
+                    <input type="hidden" name="id" th:value="${comment.id}">
+                    <input type="hidden" name="postId" th:value="${comment.postId}">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
        </tr>
     </tbody>
 </table>

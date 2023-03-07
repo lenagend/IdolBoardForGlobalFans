@@ -17,5 +17,7 @@ public class CommentService {
 
     public Flux<Comment> getComments(String postId){return this.commentRepository.findAllByPostId(postId);}
 
-    public Mono<Comment> saveComment(Comment comment){return  this.commentRepository.save(comment);}
+    public Mono<Comment> saveComment(Comment comment){return this.commentRepository.save(comment);}
+
+    public Mono<Void> deleteComment(String id){return this.commentRepository.deleteById(id);}
 }

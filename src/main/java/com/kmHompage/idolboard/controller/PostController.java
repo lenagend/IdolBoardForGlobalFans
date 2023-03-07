@@ -63,5 +63,13 @@ public class PostController {
                 .thenReturn("redirect:" + uri);
     }
 
+    @DeleteMapping("/comment/delete")
+    Mono<String> deleteComment(@ModelAttribute Comment comment){
+        String uri = "/post/read/" + comment.getPostId();
+        return this.commentService.deleteComment(comment.getId())
+                .thenReturn("redirect:" + uri);
+    }
+
+
 
 }

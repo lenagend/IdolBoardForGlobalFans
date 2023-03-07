@@ -14,6 +14,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -71,6 +73,8 @@ public class PostControllerSliceTest {
                 new Comment("comment1", "post1", "youre right")
         ));
 
+        when(commentService.deleteComment(anyString())).thenReturn(Mono.empty());
+
         client.get().uri("/post/read/post1").exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class)
@@ -79,6 +83,13 @@ public class PostControllerSliceTest {
                     assertThat(exchangeResult.getResponseBody()).contains("youre right");
                 });
 
+
+        client.delete().uri("/comment/delete", Collections.singletonMap("id",  "post1"))
+                .exchange()
+                .expectStatus()
+                .isNoContent()
+                .expectBody()
+                .consumeWith(System.out::println);
     }
 
 
