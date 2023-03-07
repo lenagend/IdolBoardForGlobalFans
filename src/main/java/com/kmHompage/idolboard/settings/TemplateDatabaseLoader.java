@@ -1,5 +1,6 @@
 package com.kmHompage.idolboard.settings;
 
+import com.kmHompage.idolboard.domain.Comment;
 import com.kmHompage.idolboard.domain.Forum;
 import com.kmHompage.idolboard.domain.Post;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +18,9 @@ public class TemplateDatabaseLoader {
             mongo.save(new Post("post1", "1", "blackpink is...", "fantastic"));
             mongo.save(new Post("post2", "1", "blackpink is...2", "good"));
             mongo.save(new Post("post3", "1", "blackpink is...3", "cool"));
+            mongo.save(new Comment("comment1", "post1", "youre right"));
+            mongo.save(new Comment("comment2", "post1", "youre right2"));
+            mongo.save(new Comment("comment3", "post1", "youre right3"));
         };
     }
 }

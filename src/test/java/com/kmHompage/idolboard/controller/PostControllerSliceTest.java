@@ -1,6 +1,8 @@
 package com.kmHompage.idolboard.controller;
 
+import com.kmHompage.idolboard.domain.Comment;
 import com.kmHompage.idolboard.domain.Post;
+import com.kmHompage.idolboard.service.CommentService;
 import com.kmHompage.idolboard.service.ForumService;
 import com.kmHompage.idolboard.service.PostService;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,8 @@ public class PostControllerSliceTest {
     @MockBean
     PostService postService;
 
+    @MockBean
+    CommentService commentService;
 
 
     @Test
@@ -54,6 +58,26 @@ public class PostControllerSliceTest {
 
         client.post().uri("/post/add").exchange()
                 .expectStatus().is3xxRedirection();
+
+    }
+
+    @Test
+    void commentpageTest(){
+        when(postService.getPost(anyString())).thenReturn(Mono.just(
+                new Post("post1", "1", "blackpink is...", "fantastic")
+        ));
+
+        when(commentService.getComments(anyString())).thenReturn(Flux.just(
+                new Comment("comment1", "post1", "youre right")
+        ));
+
+        client.get().uri("/post/read/post1").exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .consumeWith(exchangeResult -> {
+                    assertThat(exchangeResult.getResponseBody()).contains("blackpink is...");
+                    assertThat(exchangeResult.getResponseBody()).contains("youre right");
+                });
 
     }
 

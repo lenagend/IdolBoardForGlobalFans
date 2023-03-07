@@ -1,11 +1,13 @@
 package com.kmHompage.idolboard.controller;
 
 import com.kmHompage.idolboard.domain.Post;
+import com.kmHompage.idolboard.service.CommentService;
 import com.kmHompage.idolboard.service.ForumService;
 import com.kmHompage.idolboard.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Controller
@@ -13,16 +15,19 @@ public class PostController {
 
     private PostService postService;
 
-    public PostController(PostService postService) {
+    private CommentService commentService;
+
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
-    @GetMapping("/post/{id}")
-    Mono<Rendering> readPost(@PathVariable String id) {
+    @GetMapping("/post/{forumId}")
+    Mono<Rendering> getPosts(@PathVariable String forumId) {
         return Mono.just(Rendering.view("post.html")
                 .modelAttribute("posts",
-                this.postService.getPosts(id).doOnNext(System.out::println))
-                        .modelAttribute("forumId", id)
+                this.postService.getPosts(forumId).doOnNext(System.out::println))
+                        .modelAttribute("forumId", forumId)
                 .build());
     }
 
@@ -39,4 +44,16 @@ public class PostController {
         return this.postService.deletePost(post.getId())
                 .thenReturn("redirect:" + uri);
     }
+
+    @GetMapping("/post/read/{postId}")
+    Mono<Rendering> readPost(@PathVariable String postId) {
+        return Mono.just(Rendering.view("readPost.html")
+                .modelAttribute("comments",
+                        this.commentService.getComments(postId).doOnNext(System.out::println))
+                .modelAttribute("post",
+                        this.postService.getPost(postId).doOnNext(System.out::println))
+                .build());
+    }
+
+
 }

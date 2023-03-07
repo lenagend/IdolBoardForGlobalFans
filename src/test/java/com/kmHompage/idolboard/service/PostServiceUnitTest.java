@@ -30,6 +30,7 @@ public class PostServiceUnitTest {
         Post samplePost = new Post("board1", "title1", "content1");
 
         when(postRepository.findByForumId(anyString())).thenReturn(Flux.just(samplePost));
+        when(postRepository.findById(anyString())).thenReturn(Mono.just(samplePost));
         when(postRepository.save(any(Post.class))).thenReturn(Mono.just(samplePost));
 
         postService = new PostService(postRepository);
@@ -39,6 +40,16 @@ public class PostServiceUnitTest {
     @Test
     void getPostsTest() {
         postService.getPosts("forum1")
+                .as(StepVerifier::create)
+                .expectNextMatches(post -> {
+                    assertThat(post.getTitle()).isEqualTo("title1");
+                    return true;
+                }).verifyComplete();
+    }
+
+    @Test
+    void getPost() {
+        postService.getPosts("post1")
                 .as(StepVerifier::create)
                 .expectNextMatches(post -> {
                     assertThat(post.getTitle()).isEqualTo("title1");
