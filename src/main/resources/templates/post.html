@@ -19,13 +19,11 @@
     <thead>
         <tr>
             <th>title</th>
-            <th>contents</th>
         </tr>
     </thead>
     <tbody>
         <tr th:each="post : ${posts}">
-            <td th:text="${post.title}"></td>
-            <td th:text="${post.contents}"></td>
+            <td><a th:href="@{'/post/read/' + ${post.id}}"><span th:text="${post.title}"></span></a></td>
             <td>
                 <form th:method="delete" th:action="@{'/post/delete'}">
                     <input type="hidden" name="forumId" th:value="${forumId}">
