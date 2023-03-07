@@ -20,6 +20,13 @@
     </tr>
     </tbody>
 </table>
+<h2>add Comment</h2>
+<form method="post" th:action="@{'/comment/add'}">
+    <label for="contents">contents</label>
+    <textarea id="contents" name="contents"></textarea>
+    <input type="hidden" name="postId" th:value="${post.id}">
+    <input type="submit" value="add new Comment"/>
+</form>
 <table>
     <thead>
         <tr>

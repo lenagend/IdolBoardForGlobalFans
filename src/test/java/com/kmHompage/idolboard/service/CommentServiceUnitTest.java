@@ -33,6 +33,9 @@ public class CommentServiceUnitTest {
                 sampleComment,
                 sampleComment2
         ));
+        when(commentRepository.save(any(Comment.class))).thenReturn(Mono.just(
+                sampleComment
+        ));
 
         commentService = new CommentService(commentRepository);
 
@@ -48,5 +51,15 @@ public class CommentServiceUnitTest {
                 }).expectNextCount(1)
                 .expectComplete()
                 .verify();
+    }
+
+    @Test
+    void saveCommentTest(){
+        commentService.saveComment(new Comment("comment1", "post1", "contents1"))
+                .as(StepVerifier::create)
+                .expectNextMatches(comment -> {
+                    assertThat(comment.getContents()).isEqualTo("contents1");
+                    return true;
+                }).verifyComplete();
     }
 }

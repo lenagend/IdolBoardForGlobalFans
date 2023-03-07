@@ -1,5 +1,6 @@
 package com.kmHompage.idolboard.controller;
 
+import com.kmHompage.idolboard.domain.Comment;
 import com.kmHompage.idolboard.domain.Post;
 import com.kmHompage.idolboard.service.CommentService;
 import com.kmHompage.idolboard.service.ForumService;
@@ -53,6 +54,13 @@ public class PostController {
                 .modelAttribute("post",
                         this.postService.getPost(postId).doOnNext(System.out::println))
                 .build());
+    }
+
+    @PostMapping("/comment/add")
+    Mono<String> createComment(@ModelAttribute Comment comment){
+        String uri = "/post/read/" + comment.getPostId();
+        return this.commentService.saveComment(comment)
+                .thenReturn("redirect:" + uri);
     }
 
 
